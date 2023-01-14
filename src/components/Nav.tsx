@@ -3,13 +3,17 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image';
+import oreo from '../assets/images/oreo.jpg';
 import { Link } from 'react-router-dom';
+import '../styles/nav.css';
 
 
 function NavigationBar() {
   return (
     <Navbar bg="light" expand="lg">
-      <Container>
+      <Container >
+      <Image src={oreo} className='oreoClass'></Image>
         <Navbar.Brand href="#home">The Corgi Fetcher</Navbar.Brand>
         <Nav.Link href='/'><Button variant="primary">Home</Button>{' '}</Nav.Link>
         <Nav.Link href='/login'><Button variant="info">Login</Button>{' '}</Nav.Link>
