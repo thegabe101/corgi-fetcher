@@ -3,6 +3,8 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import NavigationBar from './components/Nav';
+import { Home } from './pages/Home';
+import { Login } from './pages/Login';
 
 
 function App() {
@@ -11,8 +13,8 @@ function App() {
       <Router>
         <NavigationBar/>
         <Routes>
-          <Route path='/'></Route>
-          <Route path='/login'></Route>
+          <Route path='/' element={<Home/>}></Route>
+          <Route path='/login' element={<Login/>}></Route>
         </Routes>
       </Router>
     </div>

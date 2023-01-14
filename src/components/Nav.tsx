@@ -3,6 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 
 function NavigationBar() {
@@ -10,9 +11,9 @@ function NavigationBar() {
     <Navbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand href="#home">The Corgi Fetcher</Navbar.Brand>
-        <Button variant="primary">Home</Button>{' '}
-        <Button variant="info">Login</Button>{' '}
-        <Button variant="danger">Logout</Button>{' '}
+        <Nav.Link href='/'><Button variant="primary">Home</Button>{' '}</Nav.Link>
+        <Nav.Link href='/login'><Button variant="info">Login</Button>{' '}</Nav.Link>
+        <Nav.Link href='/'><Button variant="danger">Logout</Button>{' '}</Nav.Link>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
