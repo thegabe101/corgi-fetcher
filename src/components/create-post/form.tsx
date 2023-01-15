@@ -5,6 +5,7 @@ import { db } from '../../config/firebase';
 import {addDoc, collection} from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../config/firebase';
+import { useNavigate } from 'react-router-dom';
 
 
 interface CreateFormData {
@@ -24,6 +25,8 @@ export const CreateForm = () => {
         resolver: yupResolver(schema)
     })
 
+    const navigate = useNavigate()
+
     const postsRef = collection(db, 'posts')
 
     const submitPost = async (data: CreateFormData) => {
@@ -34,7 +37,9 @@ export const CreateForm = () => {
             description: data.description,
             username: user?.displayName,
             userId: user?.uid
-        })
+        });
+
+        navigate('/');
     }
 
     return(
