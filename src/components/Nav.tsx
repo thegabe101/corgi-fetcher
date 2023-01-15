@@ -29,7 +29,8 @@ function NavigationBar() {
         {/* <Image src= {user?.photoURL || ''}/> */}
         <Navbar.Brand>The Corgi Fetcher</Navbar.Brand>
         <Nav.Link href='/'><Button variant="primary">Home</Button>{' '}</Nav.Link>
-        <Nav.Link href='/login'><Button variant="info">Login</Button>{' '}</Nav.Link>
+        {!user && <Nav.Link href='/login'><Button variant="info">Login</Button>{' '}</Nav.Link>}
+        {user && <Nav.Link href='/createpost'><Button variant="dark">Post +</Button>{' '}</Nav.Link>}
         {user && <Nav.Link href='/'><Button onClick={signUserOut} variant="danger">Logout</Button>{' '}</Nav.Link> }
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
