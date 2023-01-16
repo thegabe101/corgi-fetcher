@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {getDoc, getDocs, collection} from 'firebase/firestore';
 import {db} from '../config/firebase'
 import { ShowPost } from '../components/show-post/ShowPost';
+import '../styles/home.css';
 
 export interface Post  {
     id: string,
@@ -30,6 +31,6 @@ export const Home = () => {
     
 
   return (
-    <div>{postsList?.map((e) => <ShowPost  post={e}/>)}</div>
+    <div className='container'>{postsList?.map((e) => <ShowPost  post={e}/>)}</div>
   )
 }

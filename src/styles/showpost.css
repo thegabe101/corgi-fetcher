@@ -1,0 +1,29 @@
+.box{
+    display: inline-block;
+    flex-direction: row;
+    margin: 15px;
+}
+
+.title {
+    display:flex;
+    background-color:olive;
+    justify-content: center;
+    border-radius: 50px;
+    width: fit-content;
+    padding: 10px;
+    opacity: .7;
+}
+
+.postBox {
+    width: 15vw;
+    height: 15vh;   
+}
+
+.username {
+    font-size: small;
+    background-color: black;
+    border-radius: 80px;
+    opacity: .5;
+    width: fit-content;
+    padding:8px;
+}
