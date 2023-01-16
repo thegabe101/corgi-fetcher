@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react'
 import { Post as IPost} from '../../pages/Home';
 import '../../styles/showpost.css';
 import { auth, db } from '../../config/firebase';
-import { addDoc, query, where } from 'firebase/firestore';
+import { addDoc, query, where, deleteDoc } from 'firebase/firestore';
 import { getDocs } from 'firebase/firestore';
 import { collection } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { doc } from 'firebase/firestore';
 
 interface Props  {
     post: IPost
@@ -32,14 +33,29 @@ export const ShowPost = (props: Props) => {
     };
 
     const addLike = async () => {
-
+            try {
         await addDoc(likesRef, { userId: user?.uid, postId: post?.id  }) 
 
         if(user) {
 
         setLikes((prev) => prev ? [...prev, {userId: user?.uid}] : [{userId: user?.uid}])
+        }
+            } catch (err) {
+                console.log(err);
     }
-}
+};
+
+    const removeLike = async () => {
+
+        const likeQuery = query(likesRef, where ('postId', '==', post.id), where ('userId', '==', user?.uid))
+        
+        const likeToDeleteData = await getDocs(likeQuery);
+        
+        const likeToDelete = doc(db, 'likes', likeToDeleteData.docs[0].id);
+
+        await deleteDoc(likeToDelete) 
+
+};
 
     useEffect(() => {
       getLikes();
@@ -57,7 +73,7 @@ export const ShowPost = (props: Props) => {
         {post.description}
     </div>
     <div><h2 className='username'>Posted by @{post.username}</h2></div>
-    <div className='postFooter'><button onClick={() => {addLike()}}> {userLiked ? <>&#128078;</> : <>&#128077;</>} </button></div>
+    <div className='postFooter'><button onClick={userLiked ? removeLike: addLike}> {userLiked ? <>&#128078;</> : <>&#128077;</>} </button></div>
     {likes?.length && <p>Likes: {likes?.length}</p>}
     </div>
   )
