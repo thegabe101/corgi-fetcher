@@ -5,7 +5,6 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import oreo from '../assets/images/oreo.jpg';
-import { Link } from 'react-router-dom';
 import '../styles/nav.css';
 import { useState } from 'react';
 import { auth } from '../config/firebase';
@@ -22,6 +21,7 @@ function NavigationBar() {
 
     const signUserOut = async () => {
         await signOut(auth);
+        navigate('/');
     }
 
   return (
@@ -29,12 +29,12 @@ function NavigationBar() {
       <Container >
       <Image src={oreo} className='oreoClass'></Image>
         <p>{user?.displayName}</p>
-        {/* <Image src= {user?.photoURL || ''}/> */}
+        <Image src= {user?.photoURL || ''} style={{marginRight: '4vw', borderRadius: '25px'}}/>
         <Navbar.Brand>The Corgi Fetcher</Navbar.Brand>
-        <Nav.Link href='/'><Button variant="primary">Home</Button>{' '}</Nav.Link>
-        {!user && <Nav.Link><Button onClick={() => {navigate('/login')}} variant="info">Login</Button>{' '}</Nav.Link>}
-        {user && <Nav.Link href='/createpost'><Button variant="dark">Post +</Button>{' '}</Nav.Link>}
-        {user && <Nav.Link href='/'><Button onClick={signUserOut} variant="danger">Logout</Button>{' '}</Nav.Link> }
+        <Nav.Link href='/'><Button variant="primary">Home</Button>{' '}</Nav.Link>{' '}
+        {!user && <Button onClick={() => {navigate('/login')}} variant="info">Login</Button>}{' '}
+        {user && <Button onClick={() => {navigate('/createpost')}} variant="dark">Post +</Button>}{' '}
+        {user && <Button onClick={signUserOut} variant="danger">Logout</Button>}{' '}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
