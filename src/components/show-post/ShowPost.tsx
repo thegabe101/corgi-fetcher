@@ -13,6 +13,7 @@ interface Props  {
 }
 
 interface Like {
+    likeId: string,
     userId: string;
 }
 
@@ -29,16 +30,16 @@ export const ShowPost = (props: Props) => {
 
     const getLikes = async () => {
         const data = await getDocs(likesDoc);
-        setLikes(data.docs.map((doc) => ({ userId: doc.data().userId})));
+        setLikes(data.docs.map((doc) => ({ userId: doc.data().userId, likeId: doc.id})));
     };
 
     const addLike = async () => {
             try {
-        await addDoc(likesRef, { userId: user?.uid, postId: post?.id  }) 
+        const newDoc = await addDoc(likesRef, { userId: user?.uid, postId: post?.id  }) 
 
         if(user) {
 
-        setLikes((prev) => prev ? [...prev, {userId: user?.uid}] : [{userId: user?.uid}])
+        setLikes((prev) => prev ? [...prev, {userId: user?.uid, likeId: newDoc.id}] : [{userId: user?.uid, likeId: newDoc.id}])
         }
             } catch (err) {
                 console.log(err);
@@ -46,14 +47,22 @@ export const ShowPost = (props: Props) => {
 };
 
     const removeLike = async () => {
-
+        try {
         const likeQuery = query(likesRef, where ('postId', '==', post.id), where ('userId', '==', user?.uid))
         
         const likeToDeleteData = await getDocs(likeQuery);
         
         const likeToDelete = doc(db, 'likes', likeToDeleteData.docs[0].id);
 
-        await deleteDoc(likeToDelete) 
+        await deleteDoc(likeToDelete) ;
+
+        if (user) {
+            setLikes((prev) => 
+                prev && prev.filter((e) => e.likeId !== likeToDeleteData.docs[0].id)
+            )
+        }} catch (err){
+            console.log(err)
+        }
 
 };
 
