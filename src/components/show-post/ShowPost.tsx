@@ -73,17 +73,19 @@ export const ShowPost = (props: Props) => {
     
     const userLiked = likes?.find((like) => like.userId === user?.uid)
 
+
+    
   return (
     <div className='box'>{' '}
     <div className='title'>
-        <h1 className='titleText'>{post.title}</h1>
+        {user && <h1 className='titleText'>{post.title}</h1>}
     </div>
     <div className='postBox'>
-        {post.description}
+        {user && <p>{post.description}</p>}
     </div>
-    <div><h2 className='username'>Posted by @{post.username}</h2></div>
-    <div className='postFooter'><button onClick={userLiked ? removeLike: addLike}> {userLiked ? <>&#128078;</> : <>&#128077;</>} </button></div>
-    {likes?.length && <p>Likes: {likes?.length}</p>}
+    <div>{user && <h2 className='username'>Posted by @{post.username}</h2>}</div>
+    <div className='postFooter'>{user && <button onClick={userLiked ? removeLike: addLike}> {userLiked ? <>&#128078;</> : <>&#128077;</>} </button>}</div>
+    {user && <>{likes?.length && <p>Likes: {user && <>{likes?.length}</>}</p>}</>}
     </div>
   )
 }
