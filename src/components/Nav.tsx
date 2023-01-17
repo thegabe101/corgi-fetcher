@@ -12,9 +12,12 @@ import { auth } from '../config/firebase';
 import { useEffect } from 'react';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {signOut} from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 
 function NavigationBar() {
+    const navigate = useNavigate();
+
     const [user, loading, error] = useAuthState(auth);
 
     const signUserOut = async () => {
@@ -29,7 +32,7 @@ function NavigationBar() {
         {/* <Image src= {user?.photoURL || ''}/> */}
         <Navbar.Brand>The Corgi Fetcher</Navbar.Brand>
         <Nav.Link href='/'><Button variant="primary">Home</Button>{' '}</Nav.Link>
-        {!user && <Nav.Link href='/login'><Button variant="info">Login</Button>{' '}</Nav.Link>}
+        {!user && <Nav.Link><Button onClick={() => {navigate('/login')}} variant="info">Login</Button>{' '}</Nav.Link>}
         {user && <Nav.Link href='/createpost'><Button variant="dark">Post +</Button>{' '}</Nav.Link>}
         {user && <Nav.Link href='/'><Button onClick={signUserOut} variant="danger">Logout</Button>{' '}</Nav.Link> }
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
