@@ -7,25 +7,33 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../config/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { storage } from '../../config/firebase';
+// import { storage } from '../../config/firebase';
 import {ref, uploadBytes} from 'firebase/storage';
 import { uuidv4 } from '@firebase/util';
+// import { app } from '../../config/firebase';
+// import firebase from 'firebase/compat/app';
+// import 'firebase/compat/storage';
+// import e from 'express';
+
+// export const storage = firebase.storage()
 
 
 interface CreateFormData {
     title: string;
     description: string;
-    photo: File;
+    // photo: File;
 }
 
 export const CreateForm = () => {
     const [user] = useAuthState(auth);
-    const [imageUpload, setImageUpload] = useState<CreateFormData | null>(null);
+    // const [file, setFile] = useState<CreateFormData | null>(null);
+    // const [url, setURL] = useState('');
+    // const [imageUpload, setImageUpload] = useState<CreateFormData | null>(null);
 
     const schema = yup.object().shape({
         title: yup.string().required('Post must contain title'),
         description: yup.string().required('Post must contain a body'),
-        photo: yup.mixed()
+        // photo: yup.mixed()
     })
 
     const {register, handleSubmit, formState: {errors}} = useForm<CreateFormData>({
@@ -37,28 +45,42 @@ export const CreateForm = () => {
     const postsRef = collection(db, 'posts')
 
     const submitPost = async (data: CreateFormData) => {
-        console.log(data);
+        // if (!data.photo) return;
+        // console.log(data);
+        // const path = `/images/${file}`;
+        // const ref = storage.ref(path);
+        // if (!file) return;
+        // await ref.put(file);
+        // const url = await ref.getDownloadURL();
+        // setURL(url);
+        // setFile(null);
         await addDoc(postsRef, {
             //data fields can also be defined using spread operator 
             title: data.title,
             description: data.description,
             username: user?.displayName,
             userId: user?.uid,
-            photo: data.photo
+            // photo: data.photo
         });
 
         navigate('/');
     }
 
+    // function handleChange(e) {
+    //     if (e.target.files[0])
+    //         setFile(e.target.files[0]);
+    //   }
 
-    const uploadImage = () => {
-        if (imageUpload == null) return;
 
-        const imageRef = ref(storage, `images/${imageUpload + uuidv4()}`);
-        uploadBytes(imageRef, imageUpload).then(() => {
-            alert('Image uploading successfully.')
-        });
-    }
+    // const uploadImage = () => {
+    //     if (imageUpload == null) return;
+
+    //     const imageRef = ref(storage, `images/${imageUpload.photo + uuidv4()}`);
+    //     uploadBytes(imageRef, imageUpload.photo).then(() => {
+    //         alert('Image uploading successfully.')
+    //         console.log(`images/${imageUpload.photo + uuidv4()}`);
+    //     });
+    // }
 
     return(
         <form onSubmit={handleSubmit(submitPost)}>
@@ -66,8 +88,8 @@ export const CreateForm = () => {
             <p style={{color: 'red'}}>{errors.title?.message}</p>
             <textarea placeholder='Post body' {...register('description')}></textarea>
             <p style={{color: 'red'}}>{errors.description?.message}</p>
-            <input type='file' onChange={(event) => {setImageUpload(event.target.files[0])}}/>
-            <button onClick={uploadImage}>Upload my corgi!</button>
+            {/* <input {...register('photo')}  type='file' name= "picture"  onChange={(event) => {setImageUpload(event.target.files[0])}} />
+            <button onClick={uploadImage}>Upload my corgi!</button> */}
             <button type='submit'>Create post</button>
         </form>
     )
