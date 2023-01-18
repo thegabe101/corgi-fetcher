@@ -30,7 +30,7 @@ function NavigationBar() {
         <Image src={oreo} className='oreoClass'></Image>
         <p>{user?.displayName}</p>
         <Image src={user?.photoURL || ''} style={{ marginRight: '4vw', borderRadius: '25px' }} />
-        <Navbar.Brand>The Corgi Fetcher</Navbar.Brand>
+        <Navbar.Brand>Corgi Board</Navbar.Brand>
         <Nav.Link href='/'><Button variant="primary">Home</Button>{' '}</Nav.Link>{' '}
         {!user && <Button onClick={() => { navigate('/login') }} variant="info">Login</Button>}{' '}
         {user && <Button onClick={() => { navigate('/createpost') }} variant="dark">Post +</Button>}{' '}
